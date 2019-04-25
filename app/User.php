@@ -47,4 +47,9 @@ class User extends Authenticatable
        $userExists = User::whereEmail($email)->first();
        return $userExists == null ? 0 : 1;
     }
+
+    public function userprofile()
+    {
+      return $this->hasOne('App\Models\Userprofile', 'user_id');
+    }
 }

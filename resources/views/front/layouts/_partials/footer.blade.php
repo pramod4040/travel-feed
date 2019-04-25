@@ -9,6 +9,8 @@
 <script src="{{asset('assets/front/js/jquery.appear.min.js')}}"></script>
 <script src="{{asset('assets/front/js/jquery.incremental-counter.js')}}"></script>
 <script src="{{asset('assets/front/js/script.js')}}"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> -->
 @stack('scripts')
 <!-- <script>
 

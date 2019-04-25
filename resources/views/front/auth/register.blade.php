@@ -57,7 +57,7 @@
                   <input type="submit" name="" value="Submit">
                 </form> -->
 
-                    <form name="registration_form" method="post" action="{{route('customRegisterSave')}}" id='registration_form' class="form-inline">
+                    <form name="registration_form" method="post" action="{{route('customRegisterSave')}}" id='registration_form' class="form-inline" enctype="multipart/form-data">
                     {{csrf_field()}}
                     <!-- <input type="hidden" name="_token" value="{{csrf_token()}}"> -->
                     <div class="row">
@@ -65,10 +65,7 @@
                         <label for="firstname" class="sr-only">Name</label>
                         <input id="firstname" class="form-control input-group-lg" type="text" name="name" title="Enter name" placeholder="First name"/>
                       </div>
-                      <!-- <div class="form-group col-xs-6">
-                        <label for="lastname" class="sr-only">Last Name</label>
-                        <input id="lastname" class="form-control input-group-lg" type="text" name="lastname" title="Enter last name" placeholder="Last name"/>
-                      </div> -->
+
                     </div>
                     <div class="row">
                       <div class="form-group col-xs-12">
@@ -100,7 +97,17 @@
                         <input type="radio" name="gender" value="others">Others
                       </label>
                     </div>
+                    <
+                    <div class="row">
+                      <div class="form-group col-xs-12">
+                        <label for="image" class="sr-only">Profile Image</label>
+                        <input id="fileUpload" type="file" class="form-control input-group-lg" name="image"/>
+                      </div>
+                    </div>
 
+                      <div id="wrapper">
+                             <div id="image-holder"></div>
+                        </div>
                     <!-- <div class="row">
                       <div class="form-group col-xs-12">
                         <p class="birth"><strong>Date of Birth</strong></p>
@@ -231,6 +238,29 @@
       $('.datepicker').datepicker;
 
   });
+
+  $("#fileUpload").on('change', function () {
+
+       if (typeof (FileReader) != "undefined") {
+
+           var image_holder = $("#image-holder");
+           image_holder.empty();
+
+           var reader = new FileReader();
+           reader.onload = function (e) {
+               $("<img />", {
+                   "src": e.target.result,
+                   "class": "rounded",
+                   'style': "border-radius: 50%;",
+                   "width" : '200px'
+               }).appendTo(image_holder);
+           }
+           image_holder.show();
+           reader.readAsDataURL($(this)[0].files[0]);
+       } else {
+           alert("This browser does not support FileReader.");
+       }
+   });
 
 </script>
 

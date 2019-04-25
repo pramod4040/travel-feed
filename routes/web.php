@@ -35,7 +35,24 @@ Route::group(['namespace' => 'Front'], function() {
 
   Route::post('login/attempt', 'CustomRegisterController@postLogin')->name('postLogin');
 
-  Route::get('user-profile', function() {
-    return view('front.user.profile');
-  })->name('userprofile');
+  Route::get('user-profile','ProfileController@index')->name('userprofile');
+
+  Route::post('save/post', 'PostController@savePost')->name('savePost');
+
+
+  //cool-Like Related
+  Route::get('like-post/{post_id}', 'ReactionController@likePost')->name('likePost');
+
+  Route::get('count-like/{post_id}', 'ReactionController@countLike')->name('countLike');
+
+  // Route::get('like-post/{post_id}', function(Request $request , $post_id){
+  //   $data = $post_id;
+  //   return response()->json([
+  //     'success' => 'Post Liked',
+  //     'value' => $data
+  //   ]);
+  // })->name('likePost');
+
+
+
 });
