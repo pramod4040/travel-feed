@@ -22,6 +22,7 @@ class CreateUserprofilesTable extends Migration
             $table->string('gender')->nullable();
             $table->string('city')->nullable();
             $table->string('country')->nullable();
+            $table->string('profile_image')->nullable();
             $table->tinyInteger('pilgrims')->nullable();
             $table->tinyInteger('foodie')->nullable();
             $table->tinyInteger('adventure')->nullable();

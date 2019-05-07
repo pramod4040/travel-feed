@@ -17,4 +17,9 @@ class Userprofile extends Model
     {
       return $this->hasMany('App\Models\Post', 'userprofile_id');
     }
+
+    // public function getAllPosts($user)
+    // {
+    //   return $user->post()hasMany('App\Models\Post', 'userprofile_id')
+    // }
 }

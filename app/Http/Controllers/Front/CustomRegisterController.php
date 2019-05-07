@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
 use App\Models\Userprofile;
+use Image;
 use Auth;
 use Session;
 
@@ -27,6 +28,7 @@ class CustomRegisterController extends Controller
 
        $request->validate([
          'name' => 'required',
+         'profile_image' => 'required|mimes:jpg,jpeg,png,gif|max:1024',
          'email' => 'required',
          'gender' => 'required',
          'city' => 'required',
@@ -35,15 +37,20 @@ class CustomRegisterController extends Controller
        ]);
 
        $user['name'] = $request->name;
-       $user['email'] = $request->email;
+       $user['email'] = $email = $request->email;
        $user['password'] = bcrypt($request->password);
        $user['role'] = 'customer';
 
        $newUser = User::create($user);
+       $username = explode('@', $email);
+       $alterUser['username'] = $username[0]. '-' . $newUser->id;
+       $newUser->update($alterUser);
 
        $userProfile['city'] = $request->city;
        $userProfile['gender'] = $request->gender;
        $userProfile['country'] = $request->country;
+
+       $userProfile['profile_image'] = $this->imageProcessing($request->profile_image);
 
        $userProfile['user_id'] = $newUser->id;
 
@@ -74,4 +81,22 @@ class CustomRegisterController extends Controller
         return back()->withInput()->withErrors(['email'=>'something is wrong!']);
       }
     }
+
+    public function imageProcessing($image)
+    {
+      $imageName = time() . $image->getClientOriginalName();
+      $mainimage = public_path('uploads/userimage/profile/mainimage/');
+      $thumbnail = public_path('uploads/userimage/profile/thumbnail/');
+
+      $img = Image::make($image->getRealPath());
+      $img->fit(300, 300)->save($mainimage . $imageName);
+
+      $img = Image::make($image->getRealPath());
+      $img->fit(85, 70)->save($thumbnail . $imageName);
+
+      $img->destroy();
+
+      return $imageName;
+    }
+
 }

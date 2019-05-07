@@ -101,7 +101,7 @@
                     <div class="row">
                       <div class="form-group col-xs-12">
                         <label for="image" class="sr-only">Profile Image</label>
-                        <input id="fileUpload" type="file" class="form-control input-group-lg" name="image"/>
+                        <input id="fileUpload" type="file" class="form-control input-group-lg" name="profile_image"/>
                       </div>
                     </div>
 

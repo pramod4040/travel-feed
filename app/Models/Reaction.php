@@ -8,6 +8,11 @@ class Reaction extends Model
 {
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
+    public function posts()
+    {
+      return $this->belongsTo('App\Models\Post', 'post_id');
+    }
+
     public static function likesCount($id)
     {
        $likes = Reaction::where([

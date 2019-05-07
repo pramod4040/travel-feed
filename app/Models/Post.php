@@ -12,4 +12,9 @@ class Post extends Model
     {
       return $this->belongsTo('App\Models\Userprofile', 'userprofile_id');
     }
+
+    public function reaction()
+    {
+      return $this->hasMany('App\Models\Reaction', 'post_id');
+    }
 }

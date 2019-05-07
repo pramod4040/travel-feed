@@ -39,11 +39,19 @@ Route::group(['namespace' => 'Front'], function() {
 
   Route::post('save/post', 'PostController@savePost')->name('savePost');
 
-
   //cool-Like Related
   Route::get('like-post/{post_id}', 'ReactionController@likePost')->name('likePost');
 
   Route::get('count-like/{post_id}', 'ReactionController@countLike')->name('countLike');
+
+  Route::get('/follow/user/{id}', 'FollowersController@store')->name('storeFollowers');
+
+  Route::delete('/unfollow/user/{id}', 'FollowersController@destroy')->name('unfollowUser');
+
+  Route::get('testing/{username}', 'ProfileController@userProfile')->name('findUserProfile');
+
+  Route::get('newsfeed', 'NewsfeedController@newsfeed')->name('newsfeed');
+
 
   // Route::get('like-post/{post_id}', function(Request $request , $post_id){
   //   $data = $post_id;

@@ -79,8 +79,8 @@ textarea{
             <div class="row">
               <div class="col-md-3">
                 <div class="profile-info">
-                  <img src="/assets/front/images/img.png" alt="" class="img-responsive profile-photo" />
-                  <h3>Manoz Acharya</h3>
+                  <img src="{{asset('/uploads/userimage/profile/thumbnail/'.$user->userprofile->profile_image)}}" alt="" class="img-responsive profile-photo" />
+                  <h3>{{$user->name}}</h3>
                   <p class="text-muted">Online Entrepreneur<br>#DigitalNomad #FitnessTravel </p>
                 </div>
               </div>
@@ -88,13 +88,26 @@ textarea{
                 <ul class="list-inline profile-menu">
                   <li><a href="timeline.html" class="active">Timeline</a></li>
                   <li><a href="photos.html">Photos</a></li>
-                  <li><a href="videos.html">Videos</a></li>
-                  <li><a href="followers.html">Followers</a></li>
-                  <li><a href="editprofile.html">Edit Profile</a></li>
+                  <!-- <li><a href="videos.html">Videos</a></li> -->
+                  @if($user->id == \Auth::user()->id)
+                    <li><a href="followers.html">Followers</a></li>
+                    <li><a href="editprofile.html">Edit Profile</a></li>
+                  @endif
                 </ul>
                 <ul class="follow-me list-inline">
-                  <li>1,299 people following her</li>
-                  <li><button class="btn-primary">Follow</button></li>
+                  <li>{{$user->countFollowers()}} people following</li>
+
+                  @if($user->isUserFollower(\Auth::user()->id))
+                    <form class="" action="{{route('unfollowUser', $user->id)}}" method="post">
+                      @csrf
+                      @method('delete')
+                      <button onclick="return confirm('Are you sure you want to Unfollow?')" type="submit" class="btn-danger">Unfollow</button>
+                      <!-- <li><button class="btn-danger">UnFollow</button> </a></li> -->
+                    </form>
+                  @else
+                  <li><a href="{{route('storeFollowers', [$user->id])}}"> <button class="btn-primary">Follow</button> </a></li>
+                  @endif
+
                 </ul>
               </div>
             </div>
@@ -118,6 +131,8 @@ textarea{
           </div><!--Timeline Menu for Small Screens End-->
 
         </div>
+
+
         <div id="page-contents">
           <div class="row">
             <div class="col-md-3"></div>
@@ -140,10 +155,12 @@ textarea{
                         </ul>
                     </div>
                   @endif
+
+                @if($user->id == \Auth::user()->id)
                   <form class="" method="post" action="{{route('savePost')}}" enctype="multipart/form-data">
                     {{csrf_field()}}
                  <div class="form-group">
-                    <img src="/assets/front/images/img.png" alt="" class="profile-photo-md" />
+                    <img src="{{asset('/uploads/userimage/profile/thumbnail/'.$user->userprofile->profile_image)}}" alt="" class="profile-photo-md" />
 
                     Share Your Experience To The World!<br>
                     Be a Influencer..
@@ -174,6 +191,7 @@ textarea{
                   </div>
                 </div>
             </form>
+          @endif
                 <!-- The Modal -->
                   <div id="myModal" class="modal">
 
@@ -188,36 +206,25 @@ textarea{
                   </div>
               </div>
             </div><!-- Post Create Box End-->
-
-          @if(count($thatPost) > 0)
+<!-- <a href="{{route('storeFollowers',1)}}">CLicke Here</a> -->
+          @if(count(@$thatPost) > 0)
             <div class="post-content">
               <img src="{{asset('./uploads/mainimage/'. $thatPost->image)}}" alt="post-image" class="img-responsive post-image" />
               <div class="post-container">
-                <img src="http://placehold.it/300x300" alt="user" class="profile-photo-md pull-left" />
+                <img src="{{asset('/uploads/userimage/profile/thumbnail/'.$thatPost->userprofile->profile_image)}}" alt="user" class="profile-photo-md pull-left" />
                 <div class="post-detail" id="posts-{{$thatPost->id}}" data-postid={{$thatPost->id}}>
                   <div class="user-info">
-                    <h5><a href="timeline.html" class="profile-link">{{$thatPost->userprofile->user->name}}</a> <span class="following">following</span></h5>
+                    <h5><a href="timeline.html" class="profile-link">{{@$thatPost->userprofile->user->name}}</a> <span class="following">following</span></h5>
                     <p class="text-muted">{{\Carbon\Carbon::parse($thatPost->created_at)->diffForHumans()}}</p>
                   </div>
                   <div class="reaction">
-                    <a id="like-button" href="#" class="btn text-green"><i class="icon ion-thumbsup">{{\App\Models\Reaction::likesCount($thatPost->id)}}</i></a>
+                    <a id="" class="like-button-click btn text-green" data-postId="{{$thatPost->id}}" href="#"><i class="icon ion-thumbsup">{{\App\Models\Reaction::likesCount($thatPost->id)}}</i></a>
                     <!-- <a class="btn text-red"><i class="fa fa-thumbs-down"></i> 0</a> -->
                   </div>
                   <div class="post-text">
-                    <p>{{$thatPost->description}}</p>
+                    <p>{{@$thatPost->description}}</p>
                   </div>
-                  <!-- <div class="post-comment">
-                    <img src="http://placehold.it/300x300" alt="" class="profile-photo-sm" />
-                    <p><a href="timeline.html" class="profile-link">Diana </a><i class="em em-laughing"></i> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud </p>
-                  </div> -->
-                  <!-- <div class="post-comment">
-                    <img src="http://placehold.it/300x300" alt="" class="profile-photo-sm" />
-                    <p><a href="timeline.html" class="profile-link">John</a> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud </p>
-                  </div> -->
-                  <!-- <div class="post-comment">
-                    <img src="http://placehold.it/300x300" alt="" class="profile-photo-sm" />
-                    <input type="text" class="form-control" placeholder="Post a comment">
-                  </div> -->
+
                 </div>
               </div>
             </div>
@@ -225,104 +232,28 @@ textarea{
             @endif
 
 
-              <!-- Post Content
-              ================================================= -->
+            @foreach($allPosts as $post)
               <div class="post-content">
-                <img src="http://placehold.it/1920x1280" alt="post-image" class="img-responsive post-image" />
+                <img src="{{asset('./uploads/mainimage/'. $post->image)}}" alt="post-image" class="img-responsive post-image" />
                 <div class="post-container">
-                  <img src="http://placehold.it/300x300" alt="user" class="profile-photo-md pull-left" />
-                  <div class="post-detail">
+                  <img src="{{asset('/uploads/userimage/profile/thumbnail/'.$post->userprofile->profile_image)}}" alt="user" class="profile-photo-md pull-left" />
+                  <div class="post-detail" id="posts-{{$post->id}}" data-postid={{$post->id}}>
                     <div class="user-info">
-                      <h5><a href="timeline.html" class="profile-link">Sarah Cruiz</a> <span class="following">following</span></h5>
-                      <p class="text-muted">Published a photo about 15 mins ago</p>
+                      <h5><a href="timeline.html" class="profile-link">{{@$post->userprofile->user->name}}</a> <span class="following">following</span></h5>
+                      <p class="text-muted">{{\Carbon\Carbon::parse($post->created_at)->diffForHumans()}}</p>
                     </div>
                     <div class="reaction">
-                      <a class="btn text-green"><i class="icon ion-thumbsup"></i> 13</a>
+                      <a href="#" class="like-button-click btn text-green" data-postId="{{$post->id}}"><i class="icon ion-thumbsup"></i>{{$post->reaction()->where('like','1')->count()}}</a>
                       <!-- <a class="btn text-red"><i class="fa fa-thumbs-down"></i> 0</a> -->
                     </div>
                     <div class="post-text">
-                      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. <i class="em em-anguished"></i> <i class="em em-anguished"></i> <i class="em em-anguished"></i></p>
+                      <p>{{@$post->description}}</p>
                     </div>
-                    <div class="post-comment">
-                      <img src="http://placehold.it/300x300" alt="" class="profile-photo-sm" />
-                      <p><a href="timeline.html" class="profile-link">Diana </a><i class="em em-laughing"></i> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud </p>
-                    </div>
-                    <div class="post-comment">
-                      <img src="http://placehold.it/300x300" alt="" class="profile-photo-sm" />
-                      <p><a href="timeline.html" class="profile-link">John</a> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud </p>
-                    </div>
-                    <div class="post-comment">
-                      <img src="http://placehold.it/300x300" alt="" class="profile-photo-sm" />
-                      <input type="text" class="form-control" placeholder="Post a comment">
-                    </div>
-                  </div>
-                </div>
-              </div>
 
-              <!-- Post Content
-              ================================================= -->
-              <div class="post-content">
-                <img src="http://placehold.it/1920x1280" alt="post-image" class="img-responsive post-image" />
-                <div class="post-container">
-                  <img src="http://placehold.it/300x300" alt="user" class="profile-photo-md pull-left" />
-                  <div class="post-detail">
-                    <div class="user-info">
-                      <h5><a href="timeline.html" class="profile-link">Sarah Cruiz</a> <span class="following">following</span></h5>
-                      <p class="text-muted">Yesterday</p>
-                    </div>
-                    <div class="reaction">
-                      <a class="btn text-green"><i class="icon ion-thumbsup"></i> 49</a>
-                      <a class="btn text-red"><i class="fa fa-thumbs-down"></i> 0</a>
-                    </div>                    <div class="post-text">
-                      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. <i class="em em-anguished"></i> <i class="em em-anguished"></i> <i class="em em-anguished"></i></p>
-                    </div>
-                    <div class="post-comment">
-                      <img src="http://placehold.it/300x300" alt="" class="profile-photo-sm" />
-                      <p><a href="timeline.html" class="profile-link">Diana </a><i class="em em-laughing"></i> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud </p>
-                    </div>
-                    <div class="post-comment">
-                      <img src="http://placehold.it/300x300" alt="" class="profile-photo-sm" />
-                      <p><a href="timeline.html" class="profile-link">John</a> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud </p>
-                    </div>
-                    <div class="post-comment">
-                      <img src="http://placehold.it/300x300" alt="" class="profile-photo-sm" />
-                      <input type="text" class="form-control" placeholder="Post a comment">
-                    </div>
                   </div>
                 </div>
               </div>
-
-              <!-- Post Content
-              ================================================= -->
-              <div class="post-content">
-                <div class="post-container">
-                  <img src="http://placehold.it/300x300" alt="user" class="profile-photo-md pull-left" />
-                  <div class="post-detail">
-                    <div class="user-info">
-                      <h5><a href="timeline.html" class="profile-link">Sarah Cruiz</a> <span class="following">following</span></h5>
-                      <p class="text-muted">2 days ago</p>
-                    </div>
-                    <div class="reaction">
-                      <a class="btn text-green"><i class="icon ion-thumbsup"></i> 49</a>
-                      <a class="btn text-red"><i class="fa fa-thumbs-down"></i> 0</a>
-                    </div>
-                    <div class="post-text">
-                      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. <i class="em em-anguished"></i> <i class="em em-anguished"></i> <i class="em em-anguished"></i></p>
-                    </div>                    <div class="post-comment">
-                      <img src="http://placehold.it/300x300" alt="" class="profile-photo-sm" />
-                      <p><a href="timeline.html" class="profile-link">Diana </a><i class="em em-laughing"></i> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud </p>
-                    </div>
-                    <div class="post-comment">
-                      <img src="http://placehold.it/300x300" alt="" class="profile-photo-sm" />
-                      <p><a href="timeline.html" class="profile-link">John</a> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud </p>
-                    </div>
-                    <div class="post-comment">
-                      <img src="http://placehold.it/300x300" alt="" class="profile-photo-sm" />
-                      <input type="text" class="form-control" placeholder="Post a comment">
-                    </div>
-                  </div>
-                </div>
-              </div>
+            @endforeach
 
             </div>
             <div class="col-md-2 static">
@@ -350,10 +281,10 @@ $.ajaxSetup({
        }
 });
        $(document).ready(function(){
-           $('#like-button').click(function(e){
+           $('.like-button-click').click(function(e){
                e.preventDefault();
              // var postid = $("#like-button").
-             var postid = $(this).closest('.post-detail').attr('data-postid');
+             var postid = $(this).attr('data-postId');
 
              $.ajax({
                 method: 'get',
@@ -365,13 +296,11 @@ $.ajaxSetup({
                       method: 'get',
                       url: "/count-like/" + postid,
                       success:function(data1){
-                        console.log(data1);
-                        console.log(postid);
+                        // console.log(data1);
+                        // console.log(postid);
                         $("#posts-"+postid).children(".reaction").find("a").text(data1.like);
-                      },
-                      // error:function(error){
-                      //   console.log()
-                      // }
+                      }
+
 
                     });
                   }

@@ -4,17 +4,38 @@ namespace App\Http\Controllers\Front;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-// use App\Models\Post;
+use App\Models\Post;
+use App\User;
 use Session;
 
 class ProfileController extends Controller
 {
   public function index()
   {
-    $thatPost = Session::get('latestPost');
+    // $data['thatPost'] = Session::get('latestPost');
     // Session::forget('latestPost');
 
-    return view('front.user.profile', compact('thatPost'));
+    $id = \Auth::user()->id;
+
+    $data['user'] = $user = User::find($id);
+
+    $userprofileId = $user->userprofile->id;
+
+    $data['allPosts'] = Post::where('userprofile_id', $userprofileId)->with(['userprofile.user', 'reaction'])->latest()->get();
+
+    // $data['allPosts'] = $user->userprofile->post()->latest()->get();
+
+    // dd($data);
+
+
+    return view('front.user.profile', $data);
+  }
+
+  public function userProfile($username)
+  {
+     $data['user'] = $user = User::whereUsername($username)->first();
+     $data['allPosts'] = $user->userprofile->post()->latest()->get();
+     return view('front.user.profile', $data);
   }
 
 }

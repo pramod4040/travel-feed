@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Front;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Reaction;
+use App\Models\Post;
 
 class ReactionController extends Controller
 {
@@ -13,6 +14,8 @@ class ReactionController extends Controller
       $userprofile_id = \Auth()->user()->userprofile->id;
 
       $data = Reaction::firstOrCreate(['userprofile_id' => $userprofile_id, 'post_id' => $post_id]);
+
+      $data->refresh;
 
       if($data->like == 0 OR is_null($data->like))
       {
@@ -37,6 +40,14 @@ class ReactionController extends Controller
 
     public function countLike($postid)
     {
+      // $data = Post::with('reaction', function($query) {
+      //    $query->where('like', '1');
+      // })->where('id', $postid)->first();
+      // // $likes = $data->reaction;
+      // // foreach($likes)
+      // // dd($ikes);
+      // dd($data);
+
       $likes = Reaction::likesCount($postid);
       return response()->json(['like' => $likes]);
     }
