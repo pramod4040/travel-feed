@@ -24,22 +24,22 @@ class CreateUserprofilesTable extends Migration
             $table->string('country')->nullable();
             $table->string('profile_image')->nullable();
 
-            $table->tinyInteger('pilgrims')->nullable();
+            $table->tinyInteger('pilgrims')->default(0);
             $table->unsignedInteger('pilgrims_like')->default(0);
 
-            $table->tinyInteger('foodie')->nullable();
+            $table->tinyInteger('foodie')->default(0);
             $table->unsignedInteger('foodie_like')->default(0);
 
-            $table->tinyInteger('adventure')->nullable();
+            $table->tinyInteger('adventure')->default(0);
             $table->unsignedInteger('adventure_like')->default(0);
 
-            $table->tinyInteger('water_body')->nullable();
+            $table->tinyInteger('water_body')->default(0);
             $table->unsignedInteger('waterbody_like')->default(0);
 
-            $table->tinyInteger('nature_seeing')->nullable();
+            $table->tinyInteger('nature_seeing')->default(0);
             $table->unsignedInteger('natureseeing_like')->default(0);
 
-            $table->tinyInteger('ancient')->nullable();
+            $table->tinyInteger('ancient')->default(0);
             $table->unsignedInteger('ancient_like')->default(0);
 
             $table->timestamps();

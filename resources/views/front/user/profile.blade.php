@@ -172,11 +172,21 @@ textarea{
                   <input type="" name="tags" value="">
 
                 <h2>Select Destination</h2>
-                  <select class="" name="destination_id">
+                  <select class="form-control" name="destination_id">
                     @foreach($destinations as $destination)
                       <option value="{{$destination->id}}">{{$destination->name}}</option>
                     @endforeach
 
+                  </select>
+
+                  <h2>Select Post Type</h2>
+                  <select class="form-control" name="category_type">
+                    <option value="pilgrims">Pilgrims</option>
+                    <option value="foodie">Foodie</option>
+                    <option value="adventure">Adventure</option>
+                    <option value="waterbody">Water Body</option>
+                    <option value="natureseeing">Nature Seeing</option>
+                    <option value="ancient">Ancient</option>
                   </select>
 
                 </div>

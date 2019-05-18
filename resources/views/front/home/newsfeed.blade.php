@@ -205,14 +205,20 @@
         <div class="col-md-3 static" style="padding-left: 60px;">
           <div class="suggestions" id="sticky-sidebar">
             <h4 class="grey">Your Recommendations</h4>
+
+        @forEach($Rdestination as $key=> $data)
+            @foreach($data as $desti)
             <div class="follow-user">
               <img src="images/img.png" alt="" class="profile-photo-sm pull-left" />
               <div>
-                <h5><a href="timeline.html">Nagarkot</a></h5>
+                <h5><a href="timeline.html">{{$desti->name}}</a></h5>
                 <a href="#" class="text-green">Follow</a>
               </div>
             </div>
-            <div class="follow-user">
+            @endforeach
+        @endforeach
+
+            <!-- <div class="follow-user">
               <img src="images/img.png" alt="" class="profile-photo-sm pull-left" />
               <div>
                 <h5><a href="timeline.html">Pashupatinath Temple</a></h5>
@@ -232,7 +238,7 @@
                 <h5><a href="timeline.html">New Baneshwor</a></h5>
                 <a href="#" class="text-green">Follow</a>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
 

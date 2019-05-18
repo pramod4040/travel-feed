@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Destination;
 use Auth;
 use App\Models\Post;
+use Illuminate\Database\QueryException;
 
 class DestinationController extends Controller
 {
@@ -43,9 +44,13 @@ class DestinationController extends Controller
           'description' => 'required',
         ]);
         $data = $request->all();
-
-        Destination::create($data);
-
+        // dd($data);
+        try {
+          Destination::create($data);
+        } catch (\Illuminate\Database\QueryException $e){
+            return back()->with('error', 'This Destination Already Exists!!!');
+            // die;
+        }
         return back()->with('message', 'Destination added');
 
     }

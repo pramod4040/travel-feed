@@ -11,6 +11,12 @@
                 <p>{{session('message')}}</p>
              </div>
           @endif
+
+          @if(session('error'))
+             <div class="alret alert-danger">
+                <p>{{session('error')}}</p>
+             </div>
+          @endif
           <form name="destination_form" method="post" action="{{route('destination.store')}}" id='registration_form' class="form-inline">
                     <!-- <div class="row"> -->
                     @csrf

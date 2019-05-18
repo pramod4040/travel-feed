@@ -9,9 +9,12 @@ use App\Models\Userprofile;
 use Image;
 use Auth;
 use Session;
+use App\Traits\Recommendation;
 
 class CustomRegisterController extends Controller
 {
+   use Recommendation;
+
     public function customregister()
     {
       return view('front.auth.register');
@@ -78,6 +81,9 @@ class CustomRegisterController extends Controller
         'password' => 'required',
       ]);
       if (Auth::attempt(['email' => $request['email'], 'password' => $request['password']])) {
+
+        // $this->recommendPlaces();
+
         return redirect()->route('userprofile');
       } else {
         return back()->withInput()->withErrors(['email'=>'something is wrong!']);
