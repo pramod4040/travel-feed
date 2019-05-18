@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Reaction;
 use App\Models\Post;
+use App\Models\Userprofile;
 
 class ReactionController extends Controller
 {
@@ -15,13 +16,16 @@ class ReactionController extends Controller
 
       $data = Reaction::firstOrCreate(['userprofile_id' => $userprofile_id, 'post_id' => $post_id]);
 
-      $data->refresh;
+      // $data->refresh;
 
       if($data->like == 0 OR is_null($data->like))
       {
          $data->like = 1;
+         $this->categoryLikeCountToggle($post_id, $userprofile_id, 'increase');
       }else {
         $data->like = 0;
+        $this->categoryLikeCountToggle($post_id, $userprofile_id, 'decrease');
+        // $this->decreaseCategoryLikeCount($post_id, $userprofile_id);
       }
       $check = $data->save();
 
@@ -50,5 +54,20 @@ class ReactionController extends Controller
 
       $likes = Reaction::likesCount($postid);
       return response()->json(['like' => $likes]);
+    }
+
+    public function categoryLikeCountToggle($post_id, $userprofile_id, $type)
+    {
+       $postCategory = Post::whereId($post_id)->first();
+       $field = $postCategory->category_type . '_like';
+
+       $findRow = Userprofile::whereId($userprofile_id)->first();
+       $previousValue = $findRow->$field;
+       if($type == 'increase'){
+         $data[$field] = $previousValue + 1;
+       }else{
+          $data[$field] = $previousValue - 1;
+       }
+       $findRow->update($data);
     }
 }

@@ -18,6 +18,16 @@ class Userprofile extends Model
       return $this->hasMany('App\Models\Post', 'userprofile_id');
     }
 
+    public function destinationFollower()
+    {
+      return $this->belongsToMany('App\Models\Destination', 'destination_userprofile', 'userprofile_id', 'destination_id');
+    }
+
+    // public function followers()
+    // {
+    //
+    // }
+
     // public function getAllPosts($user)
     // {
     //   return $user->post()hasMany('App\Models\Post', 'userprofile_id')

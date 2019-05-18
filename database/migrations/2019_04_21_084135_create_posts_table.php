@@ -20,6 +20,7 @@ class CreatePostsTable extends Migration
             $table->foreign('userprofile_id')->references('id')->on('userprofiles')->onDelete('cascade');
 
             $table->string('image')->nullable();
+            $table->string('category_type')->nullable();
             $table->text('tags')->nullable();
             $table->unsignedInteger('destination_id')->nullable();
             $table->text('description')->nullable();

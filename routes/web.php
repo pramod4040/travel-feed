@@ -35,22 +35,40 @@ Route::group(['namespace' => 'Front'], function() {
 
   Route::post('login/attempt', 'CustomRegisterController@postLogin')->name('postLogin');
 
-  Route::get('user-profile','ProfileController@index')->name('userprofile');
 
-  Route::post('save/post', 'PostController@savePost')->name('savePost');
+  Route::group(['middleware' => 'auth'], function() {
 
-  //cool-Like Related
-  Route::get('like-post/{post_id}', 'ReactionController@likePost')->name('likePost');
+    Route::get('user-profile','ProfileController@index')->name('userprofile');
 
-  Route::get('count-like/{post_id}', 'ReactionController@countLike')->name('countLike');
+    Route::post('save/post', 'PostController@savePost')->name('savePost');
 
-  Route::get('/follow/user/{id}', 'FollowersController@store')->name('storeFollowers');
+    //cool-Like Related
+    Route::get('like-post/{post_id}', 'ReactionController@likePost')->name('likePost');
 
-  Route::delete('/unfollow/user/{id}', 'FollowersController@destroy')->name('unfollowUser');
+    Route::get('count-like/{post_id}', 'ReactionController@countLike')->name('countLike');
 
-  Route::get('testing/{username}', 'ProfileController@userProfile')->name('findUserProfile');
+    Route::get('/follow/user/{id}', 'FollowersController@store')->name('storeFollowers');
 
-  Route::get('newsfeed', 'NewsfeedController@newsfeed')->name('newsfeed');
+    Route::delete('/unfollow/user/{id}', 'FollowersController@destroy')->name('unfollowUser');
+
+    Route::get('testing/{username}', 'ProfileController@userProfile')->name('findUserProfile');
+
+    Route::get('newsfeed', 'NewsfeedController@newsfeed')->name('newsfeed');
+
+    Route::post('post/front/newsfeed', 'PostController@postWithOutDestination')->name('postWithOutDestination');
+
+
+    /**
+    * Destinations
+    **/
+    Route::resource('destination', 'DestinationController');
+
+    Route::get('/follow/destination/{id}', 'DestinationController@followStore')->name('destinationfollowStore');
+
+    Route::delete('/unfollow/destination/{id}', 'DestinationController@unfollowDestination')->name('unfollowDestination');
+
+
+  });
 
 
   // Route::get('like-post/{post_id}', function(Request $request , $post_id){

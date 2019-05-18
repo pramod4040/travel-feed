@@ -11,6 +11,12 @@ class NewsfeedController extends Controller
     public function newsfeed()
     {
       $allfeeds = Post::with(['userprofile.user', 'reaction'])->latest()->get();
+    
+      // $allfeeds = Post::whereDescription('asdmfkjasndf sakdjfn')->first();
+
+
+      // dd($allfeeds->tags);
+
       return view('front.home.newsfeed', compact('allfeeds'));
     }
 }

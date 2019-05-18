@@ -62,7 +62,9 @@ class CustomRegisterController extends Controller
        $userProfile['ancient'] = is_null($request->ancient) ? 0 : 1;
 
        Userprofile::create($userProfile);
-       return redirect()->route('customRegister')->with('message', 'User Created Successfully.');
+       // return redirect()->route('customRegister')->with('message', 'User Created Successfully.');
+
+       return redirect()->route('userprofile');
     }
 
     public function login()

@@ -173,9 +173,10 @@ textarea{
 
                 <h2>Select Destination</h2>
                   <select class="" name="destination_id">
-                      <option value="1">Changragiri</option>
-                      <option value="2">Sukuta</option>
-                      <option value="3">Demo Place</option>
+                    @foreach($destinations as $destination)
+                      <option value="{{$destination->id}}">{{$destination->name}}</option>
+                    @endforeach
+
                   </select>
 
                 </div>
@@ -239,7 +240,7 @@ textarea{
                   <img src="{{asset('/uploads/userimage/profile/thumbnail/'.$post->userprofile->profile_image)}}" alt="user" class="profile-photo-md pull-left" />
                   <div class="post-detail" id="posts-{{$post->id}}" data-postid={{$post->id}}>
                     <div class="user-info">
-                      <h5><a href="timeline.html" class="profile-link">{{@$post->userprofile->user->name}}</a> <span class="following">following</span></h5>
+                      <h5><a href="{{route('findUserProfile',[@$post->userprofile->user->username])}}" class="profile-link">{{@$post->userprofile->user->name}}</a> <span class="following">following</span></h5>
                       <p class="text-muted">{{\Carbon\Carbon::parse($post->created_at)->diffForHumans()}}</p>
                     </div>
                     <div class="reaction">
@@ -300,7 +301,6 @@ $.ajaxSetup({
                         // console.log(postid);
                         $("#posts-"+postid).children(".reaction").find("a").text(data1.like);
                       }
-
 
                     });
                   }

@@ -72,6 +72,7 @@
 
 @section('content')
 
+
     <div id="page-contents">
     	<div class="container">
     		<div class="row">
@@ -123,15 +124,33 @@
                       <h3> Upload Picture...</h3><br>
                       <div class="form-group">
                     <img src="{{asset('/uploads/userimage/profile/mainimage/'.\Auth()->user()->userprofile->profile_image)}}" alt="" class="profile-photo-md" /><br>
-                    <textarea name="texts" id="exampleTextarea" cols="30" rows="1" class="form-control" placeholder="Write what you wish..."></textarea><br>
+
+                    <form class="" action="{{route('postWithOutDestination')}}" method="post" enctype="multipart/form-data">
+                      @csrf
+                    <textarea name="description" id="exampleTextarea" cols="30" rows="1" class="form-control" placeholder="Write what you wish..."></textarea><br>
 
                   </div><br>
-                  <input type="text" id="hashtag" data-role="tagsinput" class="form-control input-group-lg" placeholder="#hashtags"/>
+                  <div class="form-group">
+
+                  <input type="text" name="tags" id="hashtag" data-role="tagsinput" class="form-control input-group-lg" placeholder="#hashtags"/>
+                </div>
+                  <div class="form-group">
+
+                  <select class="form-control" name="category_type">
+                    <option value="pilgrims">Pilgrims</option>
+                    <option value="foodie">Foodie</option>
+                    <option value="adventure">Adventure</option>
+                    <option value="waterbody">Water Body</option>
+                    <option value="natureseeing">Nature Seeing</option>
+                    <option value="ancient">Ancient</option>
+                  </select>
+              </div>
                   <br>
-                      <input type="file" name="file" id="file-input" accept="image/gif, image/jpeg, image/png" multiple><br>
+                      <input type="file" name="image" id="file-input" accept="image/gif, image/jpeg, image/png" multiple><br>
                       <div id="preview"></div>
-                      <input type="button" class="button" value="Submit">
+                      <input type="submit" class="button" value="Submit">
                     </div>
+                  </form>
                   </div>
             	</div>
             </div><!-- Post Create Box End-->
@@ -152,6 +171,7 @@
                   </div>
                   <div class="reaction">
                     <a href="#" class="btn text-green like-button-click " data-postId="{{$feed->id}}"><i class="icon ion-thumbsup">{{$feed->reaction->where('like', '1')->count()}}</i></a>
+
                     <!-- <a class="btn text-red"><i class="fa fa-thumbs-down"></i> 0</a> -->
                   </div>
 
@@ -175,13 +195,52 @@
                 </div>
               </div>
             </div>
+
         @endforeach
 
+          </div>
+
+        <!-- Newsfeed Common Side Bar Right
+        ================================================= -->
+        <div class="col-md-3 static" style="padding-left: 60px;">
+          <div class="suggestions" id="sticky-sidebar">
+            <h4 class="grey">Your Recommendations</h4>
+            <div class="follow-user">
+              <img src="images/img.png" alt="" class="profile-photo-sm pull-left" />
+              <div>
+                <h5><a href="timeline.html">Nagarkot</a></h5>
+                <a href="#" class="text-green">Follow</a>
+              </div>
+            </div>
+            <div class="follow-user">
+              <img src="images/img.png" alt="" class="profile-photo-sm pull-left" />
+              <div>
+                <h5><a href="timeline.html">Pashupatinath Temple</a></h5>
+                <a href="#" class="text-green">Follow</a>
+              </div>
+            </div>
+            <div class="follow-user">
+              <img src="images/img.png" alt="" class="profile-photo-sm pull-left" />
+              <div>
+                <h5><a href="timeline.html">Dhulikhel</a></h5>
+                <a href="#" class="text-green">Follow</a>
+              </div>
+            </div>
+            <div class="follow-user">
+              <img src="images/img.png" alt="" class="profile-photo-sm pull-left" />
+              <div>
+                <h5><a href="timeline.html">New Baneshwor</a></h5>
+                <a href="#" class="text-green">Follow</a>
+              </div>
+            </div>
+          </div>
+        </div>
 
 
 
-@endsection
 
+
+  @endsection
 
 
     <!-- Scripts
@@ -191,12 +250,12 @@
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCTMXfmDn0VlqWIyoOxK8997L-amWbUPiQ&callback=initMap"></script>
 
 
-    <script src="js/jquery.sticky-kit.min.js"></script>
-    <script src="js/jquery.scrollbar.min.js"></script>
-    <script src="css/dist/bootstrap-tagsinput.js"></script>
-    <script src="css/dist/bootstrap-tagsinput.min.js"></script>
-    <script src="css/dist/bootstrap-tagsinput-angular.js"></script>
-    <script src="css/dist/bootstrap-tagsinput-angular.min.js"></script>
+    <script src="{{asset('assets/front/js/jquery.sticky-kit.min.js')}}"></script>
+    <script src="{{asset('assets/front/js/jquery.scrollbar.min.js')}}"></script>
+    <script src="{{asset('assets/front/css/dist/bootstrap-tagsinput.js')}}"></script>
+    <script src="{{asset('assets/front/css/dist/bootstrap-tagsinput.min.js')}}"></script>
+    <script src="{{asset('assets/front/css/dist/bootstrap-tagsinput-angular.js')}}"></script>
+    <script src="{{asset('assets/front/css/dist/bootstrap-tagsinput-angular.min.js')}}"></script>
     <script>
       // Get the modal
 var modal = document.getElementById('myModal');

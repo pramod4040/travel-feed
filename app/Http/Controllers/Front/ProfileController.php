@@ -23,6 +23,8 @@ class ProfileController extends Controller
 
     $data['allPosts'] = Post::where('userprofile_id', $userprofileId)->with(['userprofile.user', 'reaction'])->latest()->get();
 
+    $data['destinations'] = \App\Models\Destination::orderBy('created_at', 'DESC')->get();
+
     // $data['allPosts'] = $user->userprofile->post()->latest()->get();
 
     // dd($data);
@@ -35,6 +37,7 @@ class ProfileController extends Controller
   {
      $data['user'] = $user = User::whereUsername($username)->first();
      $data['allPosts'] = $user->userprofile->post()->latest()->get();
+     $data['destinations'] = \App\Models\Destination::orderBy('created_at', 'DESC')->get();
      return view('front.user.profile', $data);
   }
 
