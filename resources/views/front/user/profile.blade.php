@@ -86,17 +86,23 @@ textarea{
               </div>
               <div class="col-md-9">
                 <ul class="list-inline profile-menu">
-                  <li><a href="timeline.html" class="active">Timeline</a></li>
-                  <li><a href="photos.html">Photos</a></li>
+                  <li><a href="{{route('userprofile')}}" class="active">Timeline</a></li>
+
                   <!-- <li><a href="videos.html">Videos</a></li> -->
                   @if($user->id == \Auth::user()->id)
-                    <li><a href="followers.html">Followers</a></li>
-                    <li><a href="editprofile.html">Edit Profile</a></li>
+                  <li><a href="{{route('photos')}}">Photos</a></li>
+
+                    <!-- <li><a href="#">Followers</a></li>
+                    <li><a href="#">Edit Profile</a></li> -->
                   @endif
+                    <li><a href="{{route('newsfeed')}}">Newsfeed</a></li>
+
                 </ul>
+
                 <ul class="follow-me list-inline">
                   <li>{{$user->countFollowers()}} people following</li>
 
+                @if($showuserfollow)
                   @if($user->isUserFollower(\Auth::user()->id))
                     <form class="" action="{{route('unfollowUser', $user->id)}}" method="post">
                       @csrf
@@ -107,6 +113,7 @@ textarea{
                   @else
                   <li><a href="{{route('storeFollowers', [$user->id])}}"> <button class="btn-primary">Follow</button> </a></li>
                   @endif
+              @endif
 
                 </ul>
               </div>
@@ -225,7 +232,7 @@ textarea{
                 <img src="{{asset('/uploads/userimage/profile/thumbnail/'.$thatPost->userprofile->profile_image)}}" alt="user" class="profile-photo-md pull-left" />
                 <div class="post-detail" id="posts-{{$thatPost->id}}" data-postid={{$thatPost->id}}>
                   <div class="user-info">
-                    <h5><a href="timeline.html" class="profile-link">{{@$thatPost->userprofile->user->name}}</a> <span class="following">following</span></h5>
+                    <h5><a href="{{route('findUserProfile',[@$feed->userprofile->user->username])}}" class="profile-link">{{@$thatPost->userprofile->user->name}}</a> <span class="following">following</span></h5>
                     <p class="text-muted">{{\Carbon\Carbon::parse($thatPost->created_at)->diffForHumans()}}</p>
                   </div>
                   <div class="reaction">
@@ -250,7 +257,7 @@ textarea{
                   <img src="{{asset('/uploads/userimage/profile/thumbnail/'.$post->userprofile->profile_image)}}" alt="user" class="profile-photo-md pull-left" />
                   <div class="post-detail" id="posts-{{$post->id}}" data-postid={{$post->id}}>
                     <div class="user-info">
-                      <h5><a href="{{route('findUserProfile',[@$post->userprofile->user->username])}}" class="profile-link">{{@$post->userprofile->user->name}}</a> <span class="following">following</span></h5>
+                      <h5><a href="{{route('userprofile')}}" class="profile-link">{{@$post->userprofile->user->name}}</a> <span class="following">following</span></h5>
                       <p class="text-muted">{{\Carbon\Carbon::parse($post->created_at)->diffForHumans()}}</p>
                     </div>
                     <div class="reaction">
@@ -260,6 +267,18 @@ textarea{
                     <div class="post-text">
                       <p>{{@$post->description}}</p>
                     </div>
+
+                    <!-- <h2>Tags</h2> -->
+                    <ul class="list-inline">
+                        @php
+                           $alltags = explode(',', $post->tags);
+                        @endphp
+
+                      @foreach($alltags as $atags)
+                          <li><button class="btn-special">#{{$atags}}</button></li>
+                      @endforeach
+
+                  </ul>
 
                   </div>
                 </div>

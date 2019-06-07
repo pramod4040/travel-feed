@@ -9,6 +9,8 @@ use Auth;
 use App\Models\Post;
 use Illuminate\Database\QueryException;
 
+use Image;
+
 class DestinationController extends Controller
 {
     /**
@@ -39,20 +41,26 @@ class DestinationController extends Controller
      */
     public function store(Request $request)
     {
+
+        // dd($request->all());
         $request->validate([
           'name' => 'required',
           'description' => 'required',
+          // 'image' => 'required|mimes:jpg,png,gif,jpeg|max:3048',
+          'image' => 'required|max:2048|mimes:jpg,jpeg,gif,png',
         ]);
-        $data = $request->all();
-        // dd($data);
+        $data = $request->except(['image']);
+        // dd($request->all());
         try {
+          if($request->hasFile('image')){
+            $data['image'] = $this->imageProcessing($request->image);
+          }
           Destination::create($data);
         } catch (\Illuminate\Database\QueryException $e){
             return back()->with('error', 'This Destination Already Exists!!!');
             // die;
         }
         return back()->with('message', 'Destination added');
-
     }
 
     /**
@@ -124,4 +132,21 @@ class DestinationController extends Controller
 
       return redirect()->back()->with('message', 'Removed Successfull.');
     }
+
+    public function imageProcessing($image)
+    {
+      $imageName = time() . $image->getClientOriginalName();
+
+      $mainimage = public_path('uploads/mainimage/');
+      $thumbnail = public_path('uploads/thumbnail/');
+
+      $img = Image::make($image->getRealPath());
+      $img->fit(1516, 498)->save($mainimage . $imageName);
+
+      $img->fit(200, 200)->save($thumbnail . $imageName);
+      $img->destroy();
+
+      return $imageName;
+    }
+
 }

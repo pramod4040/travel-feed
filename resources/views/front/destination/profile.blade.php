@@ -94,17 +94,20 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="index-register.html"><img src="/assets/front/images/loogo.png" alt="logo" /></a>
+
+
+            <a class="navbar-brand" href="index-register.html"><img src="{{asset('uploads/mainimage'.$destination->image)}}" alt="logo" /></a>
+
           </div>
 
           <!-- Collect the nav links, forms, and other content for toggling -->
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right main-menu">
-              <li class="dropdown"><a href="profile.html">My Profile</a></li>
-              <li class="dropdown"><a href="#">Message</a></li>
-              <li class="dropdown"><a href="#">Create</a></li>
-              <li class="dropdown"><a href="#">My Bucket List</a></li>
-              <li class="dropdown"><a href="#">Signout</a></li>
+              <li class="dropdown"><a href="{{route('userprofile')}}">My Profile</a></li>
+              <!-- <li class="dropdown"><a href="#">Message</a></li> -->
+              <li class="dropdown"><a href="{{route('destination.create')}}">Create</a></li>
+              <!-- <li class="dropdown"><a href="#">My Bucket List</a></li> -->
+              <!-- <li class="dropdown"><a href="#">Signout</a></li> -->
             </ul>
             <form class="navbar-form navbar-right hidden-sm">
               <div class="form-group">
@@ -121,12 +124,12 @@
     <div class="destprofile">
 
       <div class="profileimage">
-        <img src="/assets/front/images/profile.png" style="height: 500px;">
+        <img src="{{asset('uploads/mainimage/'.$destination->image)}}" style="height: 500px;">
         <div class="col-lg-12">
           <div class="col-lg-5">
             <div class="desttitle">
               <h2>{{$destination->name}}</h2>
-              <p style="color:white;">3.9K experiences</p>
+              <p style="color:white;">{{$destination->countFollowers()}}</p>
             </div>
           </div>
           <div class="col-lg-7 destfollowers" align="right">
@@ -134,8 +137,8 @@
               <li style="color:white;">1,299 people following her</li>
               <li><button class="btn-primary">Follow</button></li>
             </ul> -->
-            <ul class="follow-me list-inline">
-              <li>{{$destination->countFollowers( )}}</li>
+            <ul class="follow-me list-inline my-3">
+              <li style="color:blue;background-color:white;"><b>{{$destination->countFollowers( )}}</b></li>
 
               @if($destination->isUserFollower($userprofile->id))
                 <form class="" action="{{route('unfollowDestination', $destination->id)}}" method="post">
@@ -158,222 +161,28 @@
         <p>
         {{$destination->description}}
         </p><br>
-        <div class="dest-glarry">
-          <center><h2> Image Gallery </h2></center>
-            <ul class="album-photos">
-                <li>
-                  <div class="img-wrapper" data-toggle="modal" data-target=".photo-1">
-                    <img src="http://placehold.it/1000x1000" alt="photo" />
-                  </div>
-                  <div class="modal fade photo-1" tabindex="-1" role="dialog" aria-hidden="true">
-                    <div class="modal-dialog modal-lg">
-                      <div class="modal-content">
-                        <img src="http://placehold.it/1000x1000" alt="photo" />
-                      </div>
-                    </div>
-                  </div>
-                </li>
-                <li>
-                  <div class="img-wrapper" data-toggle="modal" data-target=".photo-2">
-                    <img src="http://placehold.it/1000x1000" alt="photo" />
-                  </div>
-                  <div class="modal fade photo-2" tabindex="-1" role="dialog" aria-hidden="true">
-                    <div class="modal-dialog modal-lg">
-                      <div class="modal-content">
-                        <img src="http://placehold.it/1000x1000" alt="photo" />
-                      </div>
-                    </div>
-                  </div>
-                </li>
-                <li>
-                  <div class="img-wrapper" data-toggle="modal" data-target=".photo-3">
-                    <img src="http://placehold.it/1000x1000" alt="photo" />
-                  </div>
-                  <div class="modal fade photo-3" tabindex="-1" role="dialog" aria-hidden="true">
-                    <div class="modal-dialog modal-lg">
-                      <div class="modal-content">
-                        <img src="http://placehold.it/1000x1000" alt="photo" />
-                      </div>
-                    </div>
-                  </div>
-                </li>
-                <li>
-                  <div class="img-wrapper" data-toggle="modal" data-target=".photo-4">
-                    <img src="http://placehold.it/1000x1000" alt="photo" />
-                  </div>
-                  <div class="modal fade photo-4" tabindex="-1" role="dialog" aria-hidden="true">
-                    <div class="modal-dialog modal-lg">
-                      <div class="modal-content">
-                        <img src="http://placehold.it/1000x1000" alt="photo" />
-                      </div>
-                    </div>
-                  </div>
-                </li>
-                <li>
-                  <div class="img-wrapper" data-toggle="modal" data-target=".photo-5">
-                    <img src="http://placehold.it/1000x1000" alt="photo" />
-                  </div>
-                  <div class="modal fade photo-5" tabindex="-1" role="dialog" aria-hidden="true">
-                    <div class="modal-dialog modal-lg">
-                      <div class="modal-content">
-                        <img src="http://placehold.it/1000x1000" alt="" />
-                      </div>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-              <center><a href="profilegallery.html"><button class="btn-primary">View All</button></a></center>
-        </div>
-        <h2>Specialities</h2>
+
+        <h2>Tags</h2>
         <ul class="list-inline">
-              <li><button class="btn-special">Night Stay</button></li>
-              <li><button class="btn-special">Bunjee</button></li>
-              <li><button class="btn-special">Cycling</button></li>
-              <li><button class="btn-special">Boating</button></li>
-            </ul>
-          <br>
-          <h2>Expenses Range</h2>
-		      <div class="MultiCarousel" data-items="1,3,5,6" data-slide="1" id="MultiCarousel"  data-interval="1000">
-            <div class="MultiCarousel-inner">
-                <div class="item">
-                    <div class="pad15">
-                        <p class="lead">jkkkdmd jkdkjd</p>
-                        <p>₹ 1</p>
-                        <p>₹ 6000</p>
-                        <p>50% off</p>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="pad15">
-                        <p class="lead">Multi Item Carousel</p>
-                        <p>₹ 1</p>
-                        <p>₹ 6000</p>
-                        <p>50% off</p>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="pad15">
-                        <p class="lead">Multi Item Carousel</p>
-                        <p>₹ 1</p>
-                        <p>₹ 6000</p>
-                        <p>50% off</p>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="pad15">
-                        <p class="lead">Multi Item Carousel</p>
-                        <p>₹ 1</p>
-                        <p>₹ 6000</p>
-                        <p>50% off</p>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="pad15">
-                        <p class="lead">Multi Item Carousel</p>
-                        <p>₹ 1</p>
-                        <p>₹ 6000</p>
-                        <p>50% off</p>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="pad15">
-                        <p class="lead">Multi Item Carousel</p>
-                        <p>₹ 1</p>
-                        <p>₹ 6000</p>
-                        <p>50% off</p>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="pad15">
-                        <p class="lead">Multi Item Carousel</p>
-                        <p>₹ 1</p>
-                        <p>₹ 6000</p>
-                        <p>50% off</p>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="pad15">
-                        <p class="lead">Multi Item Carousel</p>
-                        <p>₹ 1</p>
-                        <p>₹ 6000</p>
-                        <p>50% off</p>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="pad15">
-                        <p class="lead">Multi Item Carousel</p>
-                        <p>₹ 1</p>
-                        <p>₹ 6000</p>
-                        <p>50% off</p>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="pad15">
-                        <p class="lead">Multi Item Carousel</p>
-                        <p>₹ 1</p>
-                        <p>₹ 6000</p>
-                        <p>50% off</p>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="pad15">
-                        <p class="lead">Multi Item Carousel</p>
-                        <p>₹ 1</p>
-                        <p>₹ 6000</p>
-                        <p>50% off</p>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="pad15">
-                        <p class="lead">Multi Item Carousel</p>
-                        <p>₹ 1</p>
-                        <p>₹ 6000</p>
-                        <p>50% off</p>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="pad15">
-                        <p class="lead">Multi Item Carousel</p>
-                        <p>₹ 1</p>
-                        <p>₹ 6000</p>
-                        <p>50% off</p>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="pad15">
-                        <p class="lead">Multi Item Carousel</p>
-                        <p>₹ 1</p>
-                        <p>₹ 6000</p>
-                        <p>50% off</p>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="pad15">
-                        <p class="lead">Multi Item Carousel</p>
-                        <p>₹ 1</p>
-                        <p>₹ 6000</p>
-                        <p>50% off</p>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="pad15">
-                        <p class="lead">Multi Item Carousel</p>
-                        <p>₹ 1</p>
-                        <p>₹ 6000</p>
-                        <p>50% off</p>
-                    </div>
-                </div>
-            </div>
-            <button class="btn btn-primary leftLst"><</button>
-            <button class="btn btn-primary rightLst">></button>
-        </div>
-        <br><br><br><br>
-            <h2>View on Google Map</h2><br>
-            <div class="container-fluid">
-              <div class="row">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d14128.88419520523!2d85.3487083!3d27.7104605!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x739090deff2ba4a6!2sShree+Pashupatinath+Temple!5e0!3m2!1sen!2snp!4v1553855947755!5m2!1sen!2snp" width="100%" height="320" frameborder="0" style="border:0" allowfullscreen></iframe>
-              </div>
-              </div>
+            @php
+               $alltags = explode(',', $destination->tags);
+            @endphp
+
+          @foreach($alltags as $atags)
+              <li><button class="btn-special">{{$atags}}</button></li>
+          @endforeach
+
+      </ul>
+
+      <h2>Destination Type</h2>
+      <ul class="list-inline">
+
+            <li><button class="btn-special">{{$destination->destination_type}}</button></li>
+
+    </ul>
+
+
+
 
           <h2> What other people are doing here?</h2><br>
           <div class="col-lg-12">
@@ -401,6 +210,18 @@
                     <div class="post-text">
                       <p>{{@$post->description}}</p>
                     </div>
+
+                    <!-- <h2>Tags</h2> -->
+                    <ul class="list-inline">
+                        @php
+                           $alltags = explode(',', $post->tags);
+                        @endphp
+
+                      @foreach($alltags as $atags)
+                          <li><button class="btn-special">#{{$atags}}</button></li>
+                      @endforeach
+
+                  </ul>
 
                   </div>
                 </div>

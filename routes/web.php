@@ -25,6 +25,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 //
 // });
 
+$this->post('logout', 'Auth\LoginController@logout')->name('logout');
+
 Route::group(['namespace' => 'Front'], function() {
 
   Route::get('register', 'CustomRegisterController@customregister')->name('customRegister');
@@ -34,6 +36,10 @@ Route::group(['namespace' => 'Front'], function() {
   Route::get('login', 'CustomRegisterController@login')->name('customLogin');
 
   Route::post('login/attempt', 'CustomRegisterController@postLogin')->name('postLogin');
+
+  Route::post('custom/logout', 'CustomRegisterController@customLogout')->name('customLogout');
+
+
 
 
   Route::group(['middleware' => 'auth'], function() {
@@ -58,6 +64,8 @@ Route::group(['namespace' => 'Front'], function() {
     Route::post('post/front/newsfeed', 'PostController@postWithOutDestination')->name('postWithOutDestination');
 
 
+    Route::get('photos', 'ProfileController@allPhotos')->name('photos');
+
     /**
     * Destinations
     **/
@@ -66,6 +74,7 @@ Route::group(['namespace' => 'Front'], function() {
     Route::get('/follow/destination/{id}', 'DestinationController@followStore')->name('destinationfollowStore');
 
     Route::delete('/unfollow/destination/{id}', 'DestinationController@unfollowDestination')->name('unfollowDestination');
+
 
 
   });

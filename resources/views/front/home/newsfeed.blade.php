@@ -82,12 +82,12 @@
     			<div class="col-md-3 static" style="padding-right: 30px;">
             <div class="profile-card">
             	<img src="{{asset('/uploads/userimage/profile/mainimage/'.\Auth()->user()->userprofile->profile_image)}}" alt="user" class="profile-photo" />
-            	<h5><a href="timeline.html" class="text-white">{{\Auth()->user()->name}}</a></h5>
-            	<a href="#" class="text-white"><i class="ion ion-android-person-add"></i> 23.4K followers</a>
+            	<h5><a href="{{route('userprofile')}}" class="text-white">{{\Auth()->user()->name}}</a></h5>
+            	<a href="#" class="text-white"><i class="ion ion-android-person-add"></i> {{\Auth()->user()->countFollowers()}} followers</a>
             </div><!--profile card ends-->
             <ul class="nav-news-feed">
               <li><i class="icon ion-ios-paper"></i><div><a href="{{route('userprofile')}}">My Profile</a></div></li>
-              <li><i class="icon ion-ios-people"></i><div><a href="nearbyplaces.html">Place Nearby</a></div></li>
+              <!-- <li><i class="icon ion-ios-people"></i><div><a href="nearbyplaces.html">Place Nearby</a></div></li> -->
             </ul><!--news-feed links ends-->
           </div>
 
@@ -125,7 +125,7 @@
                       <div class="form-group">
                     <img src="{{asset('/uploads/userimage/profile/mainimage/'.\Auth()->user()->userprofile->profile_image)}}" alt="" class="profile-photo-md" /><br>
 
-                    <form class="" action="{{route('postWithOutDestination')}}" method="post" enctype="multipart/form-data">
+                    <form class="" action="{{route('savePost')}}" method="post" enctype="multipart/form-data">
                       @csrf
                     <textarea name="description" id="exampleTextarea" cols="30" rows="1" class="form-control" placeholder="Write what you wish..."></textarea><br>
 
@@ -145,6 +145,13 @@
                     <option value="ancient">Ancient</option>
                   </select>
               </div>
+              <h2>Select Destination</h2>
+                <select class="form-control" name="destination_id">
+                  @foreach($destinations as $destination)
+                    <option value="{{$destination->id}}">{{$destination->name}}</option>
+                  @endforeach
+
+                </select>
                   <br>
                       <input type="file" name="image" id="file-input" accept="image/gif, image/jpeg, image/png" multiple><br>
                       <div id="preview"></div>
@@ -158,40 +165,42 @@
             <!-- Post Content
             ================================================= -->
 
+
       @foreach($allfeeds as $feed)
+
 
             <div class="post-content">
               <img src="{{asset('/uploads/mainimage/'.$feed->image)}}" alt="post-image" class="img-responsive post-image" />
               <div class="post-container">
                 <img src="{{asset('/uploads/userimage/profile/mainimage/'.@$feed->userprofile->profile_image)}}" alt="user" class="profile-photo-md pull-left" />
                 <div class="post-detail" id="posts-{{$feed->id}}" data-postid={{$feed->id}}">
-                  <div class="user-info">
-                    <h5><a href="{{route('findUserProfile',[@$feed->userprofile->user->username])}}" class="profile-link">{{@$feed->userprofile->user->name}}</a> <span class="following">Following</span></h5>
-                    <p class="text-muted">{{\Carbon\Carbon::parse($feed->created_at)->diffForHumans()}}</p>
-                  </div>
+                    <div class="user-info">
+                      @if(@$feed->userprofile->user->id == \Auth::user()->id)
+                          <h5><a href="{{route('userprofile')}}" class="profile-link">{{@$feed->userprofile->user->name}}</a> <span class="following">Following</span></h5>
+                      @else
+                        <h5><a href="{{route('findUserProfile',[@$feed->userprofile->user->username])}}" class="profile-link">{{@$feed->userprofile->user->name}}</a> <span class="following">Following</span></h5>
+                      @endif
+                        <p class="text-muted">{{\Carbon\Carbon::parse($feed->created_at)->diffForHumans()}}</p>
+                    </div>
+
                   <div class="reaction">
                     <a href="#" class="btn text-green like-button-click " data-postId="{{$feed->id}}"><i class="icon ion-thumbsup">{{$feed->reaction->where('like', '1')->count()}}</i></a>
 
                     <!-- <a class="btn text-red"><i class="fa fa-thumbs-down"></i> 0</a> -->
                   </div>
 
-                  <!-- <div class="line-divider"></div>
-                  <div class="post-text">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labornt, sunt in culpa qui officia deserunt mollit anim id est laborum. <i class="em em-anguished"></i> <i class="em em-anguished"></i> <i class="em em-anguished"></i></p>
-                  </div>
-                  <div class="line-divider"></div>
-                  <div class="post-comment">
-                    <img src="images/img.png" alt="" class="profile-photo-sm" />
-                    <p><a href="timeline.html" class="profile-link">Diana </a><i class="em em-laughing"></i> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud </p>
-                  </div>
-                  <div class="post-comment">
-                    <img src="images/img.png" alt="" class="profile-photo-sm" />
-                    <p><a href="timeline.html" class="profile-link">John</a> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud </p>
-                  </div>
-                  <div class="post-comment">
-                    <img src="images/img.png" alt="" class="profile-photo-sm" />
-                    <input type="text" class="form-control" placeholder="Post a comment">
-                  </div> -->
+                  <!-- <h2>Tags</h2> -->
+                  <ul class="list-inline">
+                      @php
+                         $alltags = explode(',', $feed->tags);
+                      @endphp
+
+                    @foreach($alltags as $atags)
+                        <li><button class="btn-special">#{{$atags}}</button></li>
+                    @endforeach
+
+                </ul>
+
                 </div>
               </div>
             </div>
@@ -206,17 +215,22 @@
           <div class="suggestions" id="sticky-sidebar">
             <h4 class="grey">Your Recommendations</h4>
 
-        @forEach($Rdestination as $key=> $data)
-            @foreach($data as $desti)
+
+        @foreach($Rdestination as $desti)
             <div class="follow-user">
-              <img src="images/img.png" alt="" class="profile-photo-sm pull-left" />
+              <img src="{{asset('uploads/thumbnail/'.$desti->image)}}" alt="" class="profile-photo-sm pull-left" />
               <div>
-                <h5><a href="timeline.html">{{$desti->name}}</a></h5>
-                <a href="#" class="text-green">Follow</a>
+                <h5><a href="{{route('destination.show', $desti->name)}}">{{$desti->name}}</a></h5>
+              @if($desti->userFolloweDestination(\Auth()->user()->userprofile->id))
+                <a href="#" class="text-green">Following</a>
+              @else
+                  <a href="{{route('destinationfollowStore', [$desti->id])}}" class="text-green">Follow</a>
+              @endif
+
               </div>
             </div>
             @endforeach
-        @endforeach
+
 
             <!-- <div class="follow-user">
               <img src="images/img.png" alt="" class="profile-photo-sm pull-left" />

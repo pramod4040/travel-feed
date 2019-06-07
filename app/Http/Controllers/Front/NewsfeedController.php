@@ -15,6 +15,8 @@ class NewsfeedController extends Controller
     {
       $data['allfeeds'] = Post::with(['userprofile.user', 'reaction'])->latest()->get();
 
+      $data['destinations'] = \App\Models\Destination::orderBy('created_at', 'DESC')->get();
+
       $Rdestination = $this->recommendPlaces();
 
       // dd($Rdestination);

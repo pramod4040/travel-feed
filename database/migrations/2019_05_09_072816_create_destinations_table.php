@@ -20,6 +20,7 @@ class CreateDestinationsTable extends Migration
             $table->longText('description')->nullable();
             $table->string('tags')->nullable();
             $table->string('destination_type')->nullable();
+            $tablr->string('image')->nullable();
 
             $table->timestamps();
         });

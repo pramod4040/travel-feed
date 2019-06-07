@@ -97,7 +97,7 @@
                         <input type="radio" name="gender" value="others">Others
                       </label>
                     </div>
-                    <
+                    
                     <div class="row">
                       <div class="form-group col-xs-12">
                         <label for="image" class="sr-only">Profile Image</label>
@@ -194,8 +194,8 @@
                           <input type="checkbox" name="pilgrims" value="pilgrims">Pilgrims<br>
                           <input type="checkbox" name="foodie" value="foodie">Foodie<br>
                           <input type="checkbox" name="adventure" value="adventure" checked>Adventure<br>
-                          <input type="checkbox" name="water_body" value="water_body" checked>Water Body<br>
-                          <input type="checkbox" name="nature_seeing" value="nature_seeing" checked>Nature Seeing<br>
+                          <input type="checkbox" name="waterbody" value="waterbody" checked>Water Body<br>
+                          <input type="checkbox" name="natureseeing" value="natureseeing" checked>Nature Seeing<br>
                           <input type="checkbox" name="ancient" value="ancient" checked>Ancient<br>
                       </div>
 

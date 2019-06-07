@@ -41,22 +41,32 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="index-register.html"><img src="/assets/front/images/loogo.png" alt="logo" /></a>
+            <a class="navbar-brand" href="{{route('newsfeed')}}"><img src="/assets/front/images/loogo.png" alt="logo" /></a>
           </div>
 
           <!-- Collect the nav links, forms, and other content for toggling -->
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right main-menu">
-              <li class="dropdown"><a href="#">Message</a></li>
-              <li class="dropdown"><a href="#">Create</a></li>
-              <li class="dropdown"><a href="#">Signout</a></li>
+              <!-- <li class="dropdown"><a href="#">Message</a></li> -->
+              <li class="dropdown"><a class="" href="{{route('destination.create')}}">Add Destination</a></li>
+
+             <<!-- li class="dropdown"><a href="{{route('customLogout')}}">Logout</a></li>
+                <li></li> -->
+            <li class="dropdown">
+           <form action="{{ route('logout') }}" method="POST">
+                    {{ csrf_field() }}
+                    <button class="btn btn-default btn-fla"> Logout </button>
+                  <!-- <a href="#" class="btn btn-default btn-flat">Sign out</a> -->
+                </form>
+            </li>
             </ul>
-            <form class="navbar-form navbar-right hidden-sm">
+            <!-- <form class="navbar-form navbar-right hidden-sm">
+
               <div class="form-group">
                 <i class="icon ion-android-search"></i>
                 <input type="text" class="form-control" placeholder="Search places,  #hashtags">
               </div>
-            </form>
+            </form> -->
           </div><!-- /.navbar-collapse -->
         </div><!-- /.container -->
       </nav>

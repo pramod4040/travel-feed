@@ -32,4 +32,14 @@ class Destination extends Model
     {
       return $this->hasMany('App\Models\Post', 'destination_id');
     }
+
+    public function destinationFollowerUser()
+    {
+        return $this->belongsToMany('App\Models\Userprofile', 'destination_userprofile', 'destination_id', 'userprofile_id');
+    }
+
+    public function userFolloweDestination($id)
+    {
+       return $this->destinationFollowerUser()->where('userprofile_id', $id)->exists();
+    }
 }

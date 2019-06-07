@@ -33,10 +33,10 @@ class CreateUserprofilesTable extends Migration
             $table->tinyInteger('adventure')->default(0);
             $table->unsignedInteger('adventure_like')->default(0);
 
-            $table->tinyInteger('water_body')->default(0);
+            $table->tinyInteger('waterbody')->default(0);
             $table->unsignedInteger('waterbody_like')->default(0);
 
-            $table->tinyInteger('nature_seeing')->default(0);
+            $table->tinyInteger('natureseeing')->default(0);
             $table->unsignedInteger('natureseeing_like')->default(0);
 
             $table->tinyInteger('ancient')->default(0);

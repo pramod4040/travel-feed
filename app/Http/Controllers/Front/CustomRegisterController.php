@@ -60,8 +60,8 @@ class CustomRegisterController extends Controller
        $userProfile['pilgrims'] = is_null($request->pilgrims) ? 0 : 1;
        $userProfile['foodie'] = is_null($request->foodie) ? 0 : 1;
        $userProfile['adventure'] = is_null($request->adventure) ? 0 : 1;
-       $userProfile['water_body'] = is_null($request->water_body) ? 0 : 1;
-       $userProfile['nature_seeing'] = is_null($request->nature_seeing) ? 0 : 1;
+       $userProfile['waterbody'] = is_null($request->waterbody) ? 0 : 1;
+       $userProfile['natureseeing'] = is_null($request->natureseeing) ? 0 : 1;
        $userProfile['ancient'] = is_null($request->ancient) ? 0 : 1;
 
        Userprofile::create($userProfile);
@@ -105,6 +105,15 @@ class CustomRegisterController extends Controller
       $img->destroy();
 
       return $imageName;
+    }
+
+    public function customLogout(Request $request)
+    {
+        $this->guard()->logout();
+
+        $request->session()->invalidate();
+
+        return $this->loggedOut($request) ?: redirect('/');
     }
 
 }

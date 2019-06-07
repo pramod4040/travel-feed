@@ -16,6 +16,7 @@ class ProfileController extends Controller
     // Session::forget('latestPost');
 
     $id = \Auth::user()->id;
+    $data['showuserfollow'] = 0;
 
     $data['user'] = $user = User::find($id);
 
@@ -35,10 +36,27 @@ class ProfileController extends Controller
 
   public function userProfile($username)
   {
+      $data['showuserfollow'] = 1;
      $data['user'] = $user = User::whereUsername($username)->first();
      $data['allPosts'] = $user->userprofile->post()->latest()->get();
      $data['destinations'] = \App\Models\Destination::orderBy('created_at', 'DESC')->get();
      return view('front.user.profile', $data);
+  }
+
+  public function allPhotos()
+  {
+      $userprofile = \Auth::user()->userprofile;
+
+      $id = \Auth::user()->id;
+
+      // $data['destinations'] = \App\Models\Destination::orderBy('created_at', 'DESC')->get();
+
+      $data['showuserfollow'] = 0;
+      $data['user'] = $user = User::find($id);
+      $data['photos'] = $userprofile->post;
+
+      // $data['user'] = $user = User::whereUsername($username)->first();
+      return view('front.user.photos', $data);
   }
 
 }
