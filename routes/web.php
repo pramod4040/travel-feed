@@ -41,10 +41,9 @@ Route::group(['namespace' => 'Front'], function() {
 
 
 
+Route::group(['middleware' => 'auth'], function() {
 
-  Route::group(['middleware' => 'auth'], function() {
-
-    Route::get('user-profile','ProfileController@index')->name('userprofile');
+    Route::get('userprofile','ProfileController@index')->name('userprofile');
 
     Route::post('save/post', 'PostController@savePost')->name('savePost');
 
@@ -57,7 +56,7 @@ Route::group(['namespace' => 'Front'], function() {
 
     Route::delete('/unfollow/user/{id}', 'FollowersController@destroy')->name('unfollowUser');
 
-    Route::get('testing/{username}', 'ProfileController@userProfile')->name('findUserProfile');
+    Route::get('userprofile/{username}', 'ProfileController@userProfile')->name('findUserProfile');
 
     Route::get('newsfeed', 'NewsfeedController@newsfeed')->name('newsfeed');
 
@@ -79,15 +78,18 @@ Route::group(['namespace' => 'Front'], function() {
 
   });
 
+});
 
-  // Route::get('like-post/{post_id}', function(Request $request , $post_id){
-  //   $data = $post_id;
-  //   return response()->json([
-  //     'success' => 'Post Liked',
-  //     'value' => $data
-  //   ]);
-  // })->name('likePost');
+/*
+*Admin pannel
+*/
 
+Route::group(['middleware' => 'auth', 'namespace' => 'Admin', 'prefix' => 'admin'], function() {
 
+    Route::get('dashboard', function() {
+        return view('admin.index');
+    })->name('adminindex');
+
+    Route::get('destination/list', 'DestinationController@list')->name('destination.list');
 
 });

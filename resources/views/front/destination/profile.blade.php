@@ -106,7 +106,7 @@
               <li class="dropdown"><a href="{{route('userprofile')}}">My Profile</a></li>
               <!-- <li class="dropdown"><a href="#">Message</a></li> -->
               <li class="dropdown"><a href="{{route('destination.create')}}">Create</a></li>
-              <!-- <li class="dropdown"><a href="#">My Bucket List</a></li> -->
+         
               <!-- <li class="dropdown"><a href="#">Signout</a></li> -->
             </ul>
             <form class="navbar-form navbar-right hidden-sm">

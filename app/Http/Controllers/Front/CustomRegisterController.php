@@ -80,12 +80,16 @@ class CustomRegisterController extends Controller
         'email' => 'required',
         'password' => 'required',
       ]);
-      if (Auth::attempt(['email' => $request['email'], 'password' => $request['password']])) {
+      if (Auth::attempt(['email' => $request['email'], 'password' => $request['password'], 'role' => 'customer'])) {
 
         // $this->recommendPlaces();
 
         return redirect()->route('userprofile');
-      } else {
+      } elseif ((Auth::attempt(['email' => $request['email'], 'password' => $request['password'], 'role' => 'admin']))){
+           
+        return redirect()->route('adminindex');
+      }
+      else {
         return back()->withInput()->withErrors(['email'=>'something is wrong!']);
       }
     }

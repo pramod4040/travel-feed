@@ -48,10 +48,13 @@
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right main-menu">
               <!-- <li class="dropdown"><a href="#">Message</a></li> -->
+             @if(\Auth::user())
               <li class="dropdown"><a class="" href="{{route('destination.create')}}">Add Destination</a></li>
+              
+              @if(\Auth::user()->role == 'admin')
+              <li class="dropdown"><a class="" href="{{route('adminindex')}}">Admin Pannel</a></li>
+            @endif
 
-             <<!-- li class="dropdown"><a href="{{route('customLogout')}}">Logout</a></li>
-                <li></li> -->
             <li class="dropdown">
            <form action="{{ route('logout') }}" method="POST">
                     {{ csrf_field() }}
@@ -59,6 +62,7 @@
                   <!-- <a href="#" class="btn btn-default btn-flat">Sign out</a> -->
                 </form>
             </li>
+            @endif
             </ul>
             <!-- <form class="navbar-form navbar-right hidden-sm">
 
