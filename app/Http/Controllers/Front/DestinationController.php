@@ -8,6 +8,7 @@ use App\Models\Destination;
 use Auth;
 use App\Models\Post;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Str;
 
 use Image;
 
@@ -50,7 +51,7 @@ class DestinationController extends Controller
           'image' => 'required|max:2048|mimes:jpg,jpeg,gif,png',
         ]);
         $data = $request->except(['image']);
-        // dd($request->all());
+        $data['slug'] = Str::slug($request->name);
         try {
           if($request->hasFile('image')){
             $data['image'] = $this->imageProcessing($request->image);
@@ -69,9 +70,9 @@ class DestinationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($name)
+    public function show($slug)
     {
-        $data['destination']= $destination = Destination::whereName($name)->with('post')->first();
+        $data['destination']= $destination = Destination::whereSlug($slug)->with('post')->first();
         // dd($destination);
         if(count($data['destination']) == 1){
           $data['userprofile'] = Auth::user()->userprofile;

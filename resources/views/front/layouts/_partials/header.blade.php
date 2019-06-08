@@ -49,6 +49,15 @@
             <ul class="nav navbar-nav navbar-right main-menu">
               <!-- <li class="dropdown"><a href="#">Message</a></li> -->
              @if(\Auth::user())
+
+             <form class="navbar-form navbar-right hidden-sm" method="get" action="{{route('searchItems')}}">
+                        <div class="form-group">
+                            <i class="icon ion-android-search"></i>
+                            <input name="keywords" type="text" class="form-control" placeholder="Search places,  #hashtags">
+                            <!-- <input type="submit" name="" value="Search"> -->
+                        </div>
+                    </form>
+
               <li class="dropdown"><a class="" href="{{route('destination.create')}}">Add Destination</a></li>
               
               @if(\Auth::user()->role == 'admin')

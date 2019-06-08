@@ -14,6 +14,8 @@
     <link href="{{asset('/assets/admin/vendors/themify-icons/css/themify-icons.css')}}" rel="stylesheet" />
     <!-- PLUGINS STYLES-->
     <link href="{{asset('/assets/admin/vendors/jvectormap/jquery-jvectormap-2.0.3.css')}}" rel="stylesheet" />
+
+    @push('styles')
     <!-- THEME STYLES-->
     <link href="{{asset('/assets/admin/css/main.min.css')}}" rel="stylesheet" />
     <!-- PAGE LEVEL STYLES-->

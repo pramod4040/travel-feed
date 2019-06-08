@@ -225,30 +225,6 @@ textarea{
               </div>
             </div><!-- Post Create Box End-->
 <!-- <a href="{{route('storeFollowers',1)}}">CLicke Here</a> -->
-          @if(count(@$thatPost) > 0)
-            <div class="post-content">
-              <img src="{{asset('./uploads/mainimage/'. $thatPost->image)}}" alt="post-image" class="img-responsive post-image" />
-              <div class="post-container">
-                <img src="{{asset('/uploads/userimage/profile/thumbnail/'.$thatPost->userprofile->profile_image)}}" alt="user" class="profile-photo-md pull-left" />
-                <div class="post-detail" id="posts-{{$thatPost->id}}" data-postid={{$thatPost->id}}>
-                  <div class="user-info">
-                    <h5><a href="{{route('findUserProfile',[@$feed->userprofile->user->username])}}" class="profile-link">{{@$thatPost->userprofile->user->name}}</a> <span class="following">following</span></h5>
-                    <p class="text-muted">{{\Carbon\Carbon::parse($thatPost->created_at)->diffForHumans()}}</p>
-                  </div>
-                  <div class="reaction">
-                    <a id="" class="like-button-click btn text-green" data-postId="{{$thatPost->id}}" href="#"><i class="icon ion-thumbsup">{{\App\Models\Reaction::likesCount($thatPost->id)}}</i></a>
-                    <!-- <a class="btn text-red"><i class="fa fa-thumbs-down"></i> 0</a> -->
-                  </div>
-                  <div class="post-text">
-                    <p>{{@$thatPost->description}}</p>
-                  </div>
-
-                </div>
-              </div>
-            </div>
-
-            @endif
-
 
             @foreach($allPosts as $post)
               <div class="post-content">
@@ -259,6 +235,8 @@ textarea{
                     <div class="user-info">
                       <h5><a href="{{route('userprofile')}}" class="profile-link">{{@$post->userprofile->user->name}}</a> <span class="following">following</span></h5>
                       <p class="text-muted">{{\Carbon\Carbon::parse($post->created_at)->diffForHumans()}}</p>
+
+                      <a href="{{route('destination.show',$post->destination->slug)}}"><h4>{{$post->destination->name}}</h4> </a>
                     </div>
                     <div class="reaction">
                       <a href="#" class="like-button-click btn text-green" data-postId="{{$post->id}}"><i class="icon ion-thumbsup"></i>{{$post->reaction()->where('like','1')->count()}}</a>

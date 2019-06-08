@@ -74,6 +74,8 @@ Route::group(['middleware' => 'auth'], function() {
 
     Route::delete('/unfollow/destination/{id}', 'DestinationController@unfollowDestination')->name('unfollowDestination');
 
+    Route::get('search', 'SearchController@search')->name('searchItems');
+
 
 
   });
@@ -91,5 +93,9 @@ Route::group(['middleware' => 'auth', 'namespace' => 'Admin', 'prefix' => 'admin
     })->name('adminindex');
 
     Route::get('destination/list', 'DestinationController@list')->name('destination.list');
+
+    Route::get('destination/toggle-status/publish/{id}', 'DestinationController@togglePublish')->name('togglePublish');
+
+    Route::get('destination/toggle-status/verify/{id}', 'DestinationController@toggleVerify')->name('toggleVerify');
 
 });

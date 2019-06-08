@@ -181,6 +181,8 @@
                         <h5><a href="{{route('findUserProfile',[@$feed->userprofile->user->username])}}" class="profile-link">{{@$feed->userprofile->user->name}}</a> <span class="following">Following</span></h5>
                       @endif
                         <p class="text-muted">{{\Carbon\Carbon::parse($feed->created_at)->diffForHumans()}}</p>
+
+                        <a href="{{route('destination.show',$feed->destination->slug)}}"><h4>{{$feed->destination->name}}</h4> </a>
                     </div>
 
                   <div class="reaction">
@@ -220,7 +222,7 @@
             <div class="follow-user">
               <img src="{{asset('uploads/thumbnail/'.$desti->image)}}" alt="" class="profile-photo-sm pull-left" />
               <div>
-                <h5><a href="{{route('destination.show', $desti->name)}}">{{$desti->name}}</a></h5>
+                <h5><a href="{{route('destination.show', $desti->slug)}}">{{$desti->name}}</a></h5>
               @if($desti->userFolloweDestination(\Auth()->user()->userprofile->id))
                 <a href="#" class="text-green">Following</a>
               @else

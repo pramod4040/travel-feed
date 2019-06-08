@@ -42,4 +42,9 @@ class Destination extends Model
     {
        return $this->destinationFollowerUser()->where('userprofile_id', $id)->exists();
     }
+
+    public function scopePublished($query)
+    {
+        return $query->where('published', 1);
+    }
 }

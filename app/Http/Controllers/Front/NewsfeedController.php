@@ -38,7 +38,7 @@ class NewsfeedController extends Controller
 
       $data['allfeeds'] = $allfeeds;
    
-      $data['destinations'] = \App\Models\Destination::orderBy('created_at', 'DESC')->get();
+      $data['destinations'] = \App\Models\Destination::orderBy('created_at', 'DESC')->published()->get();
 
       $Rdestination = $this->recommendPlaces();
 

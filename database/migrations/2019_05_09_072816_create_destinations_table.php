@@ -17,10 +17,15 @@ class CreateDestinationsTable extends Migration
             $table->increments('id');
 
             $table->string('name')->unique();
+            $table->string('slug')->unique();
             $table->longText('description')->nullable();
             $table->string('tags')->nullable();
             $table->string('destination_type')->nullable();
-            $tablr->string('image')->nullable();
+
+            $table->tinyInteger('published')->default(0);
+            $table->tinyInteger('verified')->default(0);
+
+            $table->string('image')->nullable();
 
             $table->timestamps();
         });
