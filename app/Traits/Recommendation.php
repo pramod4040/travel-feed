@@ -13,16 +13,21 @@ trait Recommendation{
        $user_cluster = Usercluster::whereUserprofile_id($userprofile_id)->first();
 
 
-       $sameClusterUser = Usercluster::whereCluster($user_cluster->cluster)->where('userprofile_id', '!=', $userprofile_id)->get();
+       // dd($user_cluster);
 
-       return $sameClusterUser;
+       if($user_cluster){
+        $sameClusterUser = Usercluster::whereCluster($user_cluster->cluster)->where('userprofile_id', '!=', $userprofile_id)->get();
+
+        return $sameClusterUser;
+       }
+       
     }
 
     public function recommendPlaces()
     {
       $sameClusterUser = $this->getSameClusterUser();
 
-      //if this user is only one in cluseter.
+      //if this user is only one in cluster
       if(count($sameClusterUser) == 0){
           $userprofile = \Auth::user()->userprofile;
           

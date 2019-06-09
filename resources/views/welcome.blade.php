@@ -61,39 +61,54 @@
             .m-b-md {
                 margin-bottom: 30px;
             }
+
+            .arrange-button {
+
+    position: relative;
+
+    margin-left: 704px;
+    margin-top: 48px;
+
+}
+
         </style>
     </head>
     <body>
-        <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @auth
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ route('login') }}">Login</a>
+            
+            <div class="flex-center">
+                
+                <h2>hitrekkers</h2>
 
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}">Register</a>
-                        @endif
-                    @endauth
-                </div>
-            @endif
+            </div>
 
             <div class="content">
-                <div class="title m-b-md">
-                    Laravel
-                </div>
 
-                <div class="links">
-                    <a href="https://laravel.com/docs">Docs</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://blog.laravel.com">Blog</a>
-                    <a href="https://nova.laravel.com">Nova</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
-                </div>
-            </div>
-        </div>
+             <h3 id="simpleUsage" style="margin-top:20px;"></h3>
+
+             </div>
+
+             <div class="arrange-button">
+                     <a href="{{route('customLogin')}}"><button class="btn btn-primary">Login</button></a>
+                    <a href="{{route('customRegister')}}"><button class="btn btn-primary">Register</button></a>
+                  </div>
+        <!-- <script type="" src="https://cdn.jsdelivr.net/npm/typeit@VERSION_NUMBER/dist/typeit.min.js" /> -->
+
+        <script src="https://cdn.jsdelivr.net/npm/typeit@6.0.3/dist/typeit.min.js"></script>
+
+
+        <script>
+            
+            // import TypeIt from 'typeit';
+
+new TypeIt('#simpleUsage', {
+  strings: 'Hi, Register/Login Button is Waiting For you...',
+  speed: 50,
+  waitUntilVisible: true
+}).go();
+
+
+
+
+        </script>
     </body>
 </html>

@@ -72,6 +72,10 @@ class CustomRegisterController extends Controller
 
     public function login()
     {
+      if(\Auth::user()){
+        return redirect()->route('userprofile');
+        die;
+      }
       return view('front.auth.login');
     }
 

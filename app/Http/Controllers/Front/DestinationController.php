@@ -74,7 +74,7 @@ class DestinationController extends Controller
     {
         $data['destination']= $destination = Destination::whereSlug($slug)->with('post')->first();
         // dd($destination);
-        if(count($data['destination']) == 1){
+        if(count($destination) == 1){
           $data['userprofile'] = Auth::user()->userprofile;
           return view('front.destination.profile', $data);
         } else {
